@@ -17,15 +17,16 @@ export class App implements OnInit {
   public datos: number[] = [1, 7, 8, 3, 4, 9];
   public compis: string[] = ["Juanillo de la palma", "Jesus", "Alberto", "Antonio de triana", "Amanda", "Pedro", "Enrique"];
 
-  public alumnos : Alumno[] = [];
+  public alumnos: Alumno[] = [];
 
-  public alumno1 = new Alumno("Ale", "Jimenez Carballar", new Date(), 5, 6, 9);
-  public alumno2 = new Alumno("Salvador", "Peinado", new Date(), 1, 3, 8);
-  public alumno3 = new Alumno("Octavio", "Montero", new Date(), 10, 7, 4);
+  public alumno1 = new Alumno("Ale", "Jimenez Carballar", new Date(), [5, 6, 9]);
+  public alumno2 = new Alumno("Salvador", "Peinado", new Date(), [1, 3, 8]);
+  public alumno3 = new Alumno("Octavio", "Montero", new Date(), [10, 7, 4]);
 
   ngOnInit(): void {
-    console.log(this.datos);
-    console.log(this.compis);
+    // console.log(this.datos);
+    // console.log(this.compis);
+    this.alumnos.push(this.alumno1, this.alumno2, this.alumno3);
   }
   public dobleDatos(): void {
     // MAP ( recorre y mappea un array, y devuelve uno nuevo con el resultado ( al final el factor de cambio ))
@@ -59,7 +60,33 @@ export class App implements OnInit {
     console.log(precios.map(precio => precio - (1 - porcentaje / 100)));
   }
 
-  public mediaAlumnos() : void{
-    this.alumnos.reduce(((acum, alumno) => (acum + alumno.notaMedia)) / this.alumnos.length));
+  //Poner todas las notas de todos los alumnos en un solo array
+  public notasByAlumnos(): number[]{
+    return this.alumnos.flatMap(alumno => alumno.notas);
   }
+  
+  public mediaEstudiantes() : void{
+    
+  }
+
+ // Si notas es nota1, nota2, nota3
+  // public mediaEstudiantes(): void {
+  //   if (this.alumnos.length === 0) {
+  //     console.log("No hay alumnos");
+  //   }
+  //   console.log((this.alumnos.reduce((acum: number, alumno: Alumno) => acum + alumno.notaMedia, 0) / this.alumnos.length).toFixed(2));
+  // }
+
+  // Si notas es nota1, nota2, nota3
+  // public mediaSoloAprobados(): void {
+  //   if (this.alumnos.length === 0) {
+  //     console.log("No hay alumnos");
+  //   }
+
+  //   let aprobados = this.alumnos.filter(alumno => alumno.notaMedia >= 5);
+
+  //   console.log((aprobados.reduce((acum: number, alumno : Alumno) => acum + alumno.notaMedia, 0) / aprobados.length).toFixed(2))
+  // }
+
+  
 }
