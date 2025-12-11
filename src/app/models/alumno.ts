@@ -19,7 +19,9 @@ export class Alumno {
 
     //Otros metodos
 
-    // get notaMedia(): number { return (this._nota1 + this._nota2 + this._nota3) / 3 }
+     get notaMedia(): number { 
+        return this.notas.reduce((acum, n) => acum + n) / this.notas.length;
+    }
 
     
 }

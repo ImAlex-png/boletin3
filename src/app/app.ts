@@ -23,6 +23,9 @@ export class App implements OnInit {
   public alumno2 = new Alumno("Salvador", "Peinado", new Date(), [1, 3, 8]);
   public alumno3 = new Alumno("Octavio", "Montero", new Date(), [10, 7, 4]);
 
+  public opt: string = "";
+  public mensaje: string = "";
+
   ngOnInit(): void {
     // console.log(this.datos);
     // console.log(this.compis);
@@ -60,16 +63,85 @@ export class App implements OnInit {
     console.log(precios.map(precio => precio - (1 - porcentaje / 100)));
   }
 
-  //Poner todas las notas de todos los alumnos en un solo array
-  public notasByAlumnos(): number[]{
-    return this.alumnos.flatMap(alumno => alumno.notas);
-  }
-  
-  public mediaEstudiantes() : void{
-    
+  public mostrarEstadisticas(): void {
+    let notasTotales = this.notasByAlumnos();
+    console.log(notasTotales);
+
+    switch (this.opt) {
+      case 'a':
+        //Mostrar la moda
+        this.mostrar_moda(notasTotales);
+        break;
+      case 'b':
+        //Mostrar la media
+        this.mostrar_media(notasTotales);
+        break;
+      case 'c':
+        //Mostrar media aprobados
+        this.media_aprobados(notasTotales);
+        break;
+      case 'd':
+        //Mostrar nota maxima mayores al 2000
+        this.nota_maxima_anyo(2000);
+        break;
+      default:
+        console.error("Opcion no encontrada");
+        break;
+    }
   }
 
- // Si notas es nota1, nota2, nota3
+  //Metodos de uso interno, no accesibles desde fuera de la clase
+  public notasByAlumnos(): number[] {
+    return this.alumnos.flatMap(alumno => alumno.notas);
+  }
+
+  private mostrar_media(notasTotales: number[]): void {
+    this.mensaje = "La nota media es: " +
+      notasTotales.reduce((acum, n) => acum + n) / notasTotales.length;
+  }
+
+  private mostrar_moda(notasTotales: number[]) {
+    let recuentoNotas: Map<number, number> = new Map();
+    let valorMaximo: number = 0;
+    let claveMaxima: number = 0;
+    for (let n of notasTotales) {
+      recuentoNotas.set(n, (recuentoNotas.get(n) || 0) + 1);
+    }
+
+    for (let [k, v] of recuentoNotas) {
+      if (v > valorMaximo) {
+        valorMaximo = v;
+        claveMaxima = k;
+      }
+    }
+
+    this.mensaje = "La moda es: " + claveMaxima;
+
+  }
+
+  private media_aprobados(notasTotales: number[]): void {
+    this.mensaje = "La nota media es: " + notasTotales
+      .filter(n => n > 5)
+      .reduce((acum, n) => acum + n) / (notasTotales.filter(n => n > 5)).length;
+  }
+
+
+  private nota_maxima_anyo(year: number): void {
+    this.mensaje = "La nota maxima de los alumnos mayores al 2000 es : " + this.alumnos.filter(a => a.fechaNac.getFullYear() > year)
+      .flatMap(a => a.notas)
+      .reduce((max, n) => n > max ? n : max);
+  }
+
+  // //Poner todas las notas de todos los alumnos en un solo array
+  // public notasByAlumnos(): number[]{
+  //   return this.alumnos.flatMap(alumno => alumno.notas);
+  // }
+
+  // public mediaEstudiantes() : void{
+
+  // }
+
+  // Si notas es nota1, nota2, nota3
   // public mediaEstudiantes(): void {
   //   if (this.alumnos.length === 0) {
   //     console.log("No hay alumnos");
@@ -88,5 +160,5 @@ export class App implements OnInit {
   //   console.log((aprobados.reduce((acum: number, alumno : Alumno) => acum + alumno.notaMedia, 0) / aprobados.length).toFixed(2))
   // }
 
-  
+
 }
