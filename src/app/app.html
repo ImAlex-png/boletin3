@@ -221,12 +221,18 @@
       <br><br>
       <h2>Opciones Actividad 7</h2>
       Notas de todos los alumnos: {{this.notasByAlumnos()}}
-      
-      <button (click)="notasByAlumnos()">Calcula la moda de notas de entre todos los estudiantes</button>
-      <!-- <button (click)="mediaEstudiantes()">Calcula la nota media de entre todos los estudiantes</button>
-      <button (click)="mediaSoloAprobados()">Calcula la nota media de entre todos los estudiantes teniendo en cuenta solo
-        los aprobados</button> -->
-      <button (click)="mediaDatos()">Calcula la mayor nota de los alumnos nacidos anteriores al año 2.000</button>
+
+      <ol type="a">
+        <li>Calcula la moda de notas de entre todos los estudiantes</li>
+        <li>Calcula la nota media de entre todos los estudiantes</li>
+        <li>Calcula la nota media de entre todos los estudiantes teniendo en cuenta solo
+          los aprobados</li>
+        <li>Calcula la mayor nota de los alumnos nacidos anteriores al año 2.000
+        </li>
+      </ol>
+
+      Opcion: <input type="text" [(ngModel)]="opt"/>
+      <button (click)="mostrarEstadisticas()">Enviar</button>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
